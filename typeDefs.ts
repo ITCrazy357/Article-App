@@ -5,9 +5,20 @@ export const typeDefs = /* GraphQL */ `
     avatar: String
     description: String
   }
+
   type Query {
     hello: String
     getListArticles: [Article]
     getArticles(id: ID!): Article
+  }
+
+  input ArticleInput {
+    title: String!
+    avatar: String
+    description: String
+  }
+
+  type Mutation {
+    createArticle(input: ArticleInput!): Article
   }
 `;

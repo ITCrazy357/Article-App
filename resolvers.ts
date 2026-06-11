@@ -17,4 +17,11 @@ export const resolvers = {
       return article;
     },
   },
+  Mutation: {
+    createArticle: async (_: any, { input }: { input: any }) => {
+      const article = new Article(input);
+      await article.save();
+      return article;
+    },
+  },
 };
