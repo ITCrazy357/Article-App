@@ -4,6 +4,8 @@ import * as database from "./config/database";
 
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@as-integrations/express5";
+import { typeDefs } from "./typeDefs";
+import { resolvers } from "./resolvers";
 
 dotenv.config();
 database.connect();
@@ -12,18 +14,6 @@ const app: Express = express();
 const port = process.env.PORT || 3000;
 
 const startServer = async () => {
-  const typeDefs = `
-    type Query {
-      hello: String
-    }
-  `;
-
-  const resolvers = {
-    Query: {
-      hello: () => "Hello World!",
-    },
-  };
-
   const server = new ApolloServer({
     typeDefs,
     resolvers,
