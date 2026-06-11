@@ -7,7 +7,6 @@ export const typeDefs = /* GraphQL */ `
   }
 
   type Query {
-    hello: String
     getListArticles: [Article]
     getArticles(id: ID!): Article
   }
@@ -20,5 +19,7 @@ export const typeDefs = /* GraphQL */ `
 
   type Mutation {
     createArticle(input: ArticleInput!): Article
+    updateArticle(id: ID!, input: ArticleInput!): String
+    deleteArticle(id: ID!): String
   }
 `;
