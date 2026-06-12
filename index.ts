@@ -4,8 +4,8 @@ import * as database from "./config/database";
 
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@as-integrations/express5";
-import { typeDefs } from "./typeDefs";
-import { resolvers } from "./resolvers";
+import { typeDefs } from "./typeDefs/index.typeDefs";
+import { resolvers } from "./resolvers/index.resolvers";
 
 dotenv.config();
 database.connect();
@@ -15,8 +15,8 @@ const port = process.env.PORT || 3000;
 
 const startServer = async () => {
   const server = new ApolloServer({
-    typeDefs,
-    resolvers,
+    typeDefs: typeDefs,
+    resolvers: resolvers,
   });
 
   await server.start();
