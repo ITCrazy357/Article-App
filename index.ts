@@ -5,7 +5,7 @@ import * as database from "./config/database";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@as-integrations/express5";
 import { typeDefs } from "./typeDefs/index.typeDefs";
-import { resolvers } from "./resolvers/index.resolvers";
+import { resolvers } from "./resolvers/index.resolver";
 
 dotenv.config();
 database.connect();
