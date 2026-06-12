@@ -13,6 +13,8 @@ export const typeDefsArticle = /* GraphQL */ `
       sortValue: String
       currentPage: Int = 1
       limitItem: Int = 3
+      filterKey: String
+      filterValue: String
     ): [Article]
     getArticles(id: ID!): Article
   }
