@@ -15,6 +15,7 @@ export const typeDefsArticle = /* GraphQL */ `
       limitItem: Int = 3
       filterKey: String
       filterValue: String
+      keyword: String
     ): [Article]
     getArticles(id: ID!): Article
   }

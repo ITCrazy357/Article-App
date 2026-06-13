@@ -1,5 +1,6 @@
 import Article from "../models/article.model";
 import Category from "../models/category.model";
+import { convertToSlug } from "../helpers/convertToSlug";
 
 export const resolversArticle = {
   Query: {
@@ -11,6 +12,7 @@ export const resolversArticle = {
         limitItem,
         filterKey,
         filterValue,
+        keyword,
       } = args;
 
       const find: any = {
@@ -33,6 +35,13 @@ export const resolversArticle = {
         find[filterKey] = filterValue;
       }
       //End filter
+
+      //Keyword search
+      if (keyword) {
+        const keywordRegex = new RegExp(keyword, "i");
+
+        find.$or = [{ title: keywordRegex }, { description: keywordRegex }];
+      }
 
       const articles = await Article.find(find)
         .sort(sort)
