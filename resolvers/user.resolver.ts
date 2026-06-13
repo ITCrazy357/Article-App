@@ -4,30 +4,50 @@ import jwt from "jsonwebtoken";
 
 export const resolversUser = {
   Query: {
-    getUser: async (_: any, { id }: any) => {
+    getUser: async (_: any, __: any, context: any) => {
       try {
-        const user = await User.findOne({ 
-            _id: id, 
-            deleted: false 
-        });
-        if (user) {
+        const token = context.req.cookies.token;
+
+        if (!token) {
           return {
-            id: user._id,
-            fullName: user.fullName,
-            email: user.email,
-            code: 200,
-            message: "User found",
+            code: 401,
+            message: "Unauthorized",
+            user: null,
           };
-        } else {
+        }
+
+        const decoded: any = jwt.verify(
+          token,
+          process.env.JWT_SECRET as string,
+        );
+
+        const user = await User.findOne({
+          _id: decoded.id,
+          deleted: false,
+        });
+
+        if (!user) {
           return {
             code: 404,
             message: "User not found",
+            user: null,
           };
         }
+
+        return {
+          code: 200,
+          message: "User found",
+          user: {
+            id: user._id,
+            fullName: user.fullName,
+            email: user.email,
+          },
+        };
       } catch (error: any) {
         return {
           code: 500,
           message: error.message,
+          user: null,
         };
       }
     },
@@ -91,10 +111,11 @@ export const resolversUser = {
         };
       }
     },
+
     //Login
-    loginUser: async (_: any, { user }: any) => {
+    loginUser: async (_: any, { user }: any, context: any) => {
       try {
-        const userFound: string | any = await User.findOne({
+        const userFound: any = await User.findOne({
           email: user.email,
           deleted: false,
         });
@@ -129,6 +150,11 @@ export const resolversUser = {
             expiresIn: "1h",
           },
         );
+
+        context.res.cookie("token", token, {
+          httpOnly: true,
+          maxAge: 3600000,
+        });
 
         return {
           code: 200,

@@ -3,42 +3,38 @@ export const typeDefsUser = /* GraphQL */ `
     id: ID!
     fullName: String!
     email: String!
+  }
+
+  type UserResponse {
     code: Int!
     message: String!
+    user: User
   }
-  #   Get User
-  type Query {
-    getUser(id: ID!): User
+
+  type AuthResponse {
+    code: Int!
+    message: String!
+    token: String
+    user: User
   }
-  #   Register
+
   input RegisterInput {
     fullName: String!
     email: String!
     password: String!
   }
 
-  type RegisterResponse {
-    code: Int!
-    message: String!
-    token: String
-    user: User
-  }
-
-  #   Login
   input LoginInput {
     email: String!
     password: String!
   }
 
-  type LoginResponse {
-    code: Int!
-    message: String!
-    token: String
-    user: User
+  type Query {
+    getUser: UserResponse!
   }
 
   type Mutation {
-    registerUser(user: RegisterInput!): RegisterResponse!
-    loginUser(user: LoginInput!): LoginResponse!
+    registerUser(user: RegisterInput!): AuthResponse!
+    loginUser(user: LoginInput!): AuthResponse!
   }
 `;
