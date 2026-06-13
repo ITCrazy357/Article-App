@@ -3,6 +3,12 @@ export const typeDefsUser = /* GraphQL */ `
     id: ID!
     fullName: String!
     email: String!
+    code: Int!
+    message: String!
+  }
+  #   Get User
+  type Query {
+    getUser(id: ID!): User
   }
   #   Register
   input RegisterInput {

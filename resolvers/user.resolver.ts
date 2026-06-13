@@ -3,6 +3,36 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export const resolversUser = {
+  Query: {
+    getUser: async (_: any, { id }: any) => {
+      try {
+        const user = await User.findOne({ 
+            _id: id, 
+            deleted: false 
+        });
+        if (user) {
+          return {
+            id: user._id,
+            fullName: user.fullName,
+            email: user.email,
+            code: 200,
+            message: "User found",
+          };
+        } else {
+          return {
+            code: 404,
+            message: "User not found",
+          };
+        }
+      } catch (error: any) {
+        return {
+          code: 500,
+          message: error.message,
+        };
+      }
+    },
+  },
+
   Mutation: {
     //Register
     registerUser: async (_: any, { user }: any) => {
